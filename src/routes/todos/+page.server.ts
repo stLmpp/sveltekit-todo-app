@@ -1,4 +1,4 @@
-import type { Todo } from '../../lib/models/todo';
+import type { Todo } from '$lib/models/todo';
 import { API } from '$env/static/private';
 import type { PageServerLoad } from './$types';
 import { getSecretHeader } from '$lib/server/get-secret-header';
@@ -11,7 +11,5 @@ export const load = (async ({ fetch }) => {
 		throw error(response.status, json.message);
 	}
 	const todos: Todo[] = await response.json();
-	return {
-		todos: todos.filter((_, index) => index <= 6)
-	};
+	return { todos };
 }) satisfies PageServerLoad;

@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import { API } from '$env/static/private';
 import { getSecretHeader } from '$lib/server/get-secret-header';
 import type { Actions } from '@sveltejs/kit';
-import { error } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 
 export const load = (async ({ fetch, params }) => {
 	const response = await fetch(`${API}/todos/${params.id}`, { headers: getSecretHeader() });
@@ -14,16 +14,11 @@ export const load = (async ({ fetch, params }) => {
 export const actions = {
 	default: async ({ fetch, request, params }) => {
 		const formData = await request.formData();
-		console.log(Object.fromEntries(formData.entries()));
 		const todoUpdate = {
 			description: formData.get('description'),
 			title: formData.get('title'),
-			completed: formData.get('completed') === 'true'
+			completed: formData.get('completed') === 'on'
 		};
-		console.log({
-			url: `${API}/todos/${params.id}`,
-			body: JSON.stringify(todoUpdate)
-		});
 		const response = await fetch(`${API}/todos/${params.id}`, {
 			headers: {
 				...getSecretHeader(),
@@ -33,9 +28,8 @@ export const actions = {
 			method: 'PATCH'
 		});
 		if (!response.ok) {
-			console.log(await response.text());
-			throw error(response.status);
+			return fail(response.status);
 		}
-		return response.json();
+		return { success: true };
 	}
 } satisfies Actions;

@@ -8,8 +8,14 @@
 
 <ul>
 	{#each data.todos as todo (todo.id)}
-		<li>
-			<a href={`/todos/${todo.id}`}>{todo.description}</a>
+		<li class:completed={todo.completed}>
+			<a href={`/todos/${todo.id}`}>{todo.title}</a>
 		</li>
 	{/each}
 </ul>
+
+<style>
+	.completed {
+		text-decoration: line-through;
+	}
+</style>
