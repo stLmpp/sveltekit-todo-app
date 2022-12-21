@@ -11,7 +11,7 @@
 {:else}
 	<a href="/todos">Voltar</a>
 
-	<form method="POST" use:enhance>
+	<form method="POST" action="?/add" use:enhance>
 		<label>
 			<input type="checkbox" name="completed" bind:checked={data.todo.completed} />
 			Completed {data.todo.completed}
