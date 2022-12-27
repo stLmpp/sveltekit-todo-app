@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { afterUpdate, beforeUpdate, createEventDispatcher, onDestroy, onMount } from 'svelte';
   import isOdd from 'is-odd';
+  import { countStore } from '../stores/count';
 
   export let imparOuPar = false;
 
@@ -19,6 +20,22 @@
   $: arrayFiltrado = array.filter((_, index) => {
     const nr = index + 1;
     return imparOuPar ? isOdd(nr) : !isOdd(nr);
+  });
+
+  onMount(() => {
+    console.log('onMount');
+  });
+
+  onDestroy(() => {
+    console.log('onDestroy');
+  });
+
+  beforeUpdate(() => {
+    console.log('beforeUpdate');
+  });
+
+  afterUpdate(() => {
+    console.log('afterUpdate');
   });
 </script>
 
@@ -48,6 +65,11 @@
     {item.nome}
   </li>
 {/each}
+
+<h5>Store</h5>
+
+Valor da store: {$countStore}
+<button on:click={() => $countStore++}>Adicionar 1 na store</button>
 
 <style>
   .is-odd {

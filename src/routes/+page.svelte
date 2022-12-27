@@ -1,5 +1,6 @@
 <script>
   import NossoComponent from '$lib/components/NossoComponent.svelte';
+  import { countStore } from '../lib/stores/count';
 
   let imparOuPar = false;
 </script>
@@ -16,6 +17,8 @@
   <input type="checkbox" bind:checked={imparOuPar} />
   {imparOuPar ? 'Impar' : 'Par'}
 </label>
+
+<button on:click={() => $countStore--}>Subtrair 1 da store, valor da store: {$countStore}</button>
 
 <NossoComponent
   {imparOuPar}
